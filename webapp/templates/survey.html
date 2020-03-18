@@ -1,0 +1,37 @@
+<!DOCTYPE html>
+<html lang="pl">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Ankietka</title>
+    <link rel="stylesheet" type="text/css" href="{{ url_for('static', filename='styles.css') }}">
+</head>
+
+<body>
+    <form name="panel" method="POST">
+        <div class="panel">
+            <header><strong>Ankietka</strong></header>
+            <br>
+            <label><b>Partia polityczna</b>
+                <br>
+                <input id="party" type="text" placeholder="Wpisz nazwę ulubionej partii" name="party" required>
+                <br>
+            </label>
+            <br>
+            <label><b>Kolor oczu</b></label>
+            <br>
+            <input type="radio" name="eyes" value="green" checked> Zielone
+			<br>
+			<input type="radio" name="eyes" value="blue"> Niebieskie
+			<br>
+			<input type="radio" name="eyes" value="brown"> Brązowe 
+			<br>
+            <hr>
+            <button type="submit" class="normalbutton">Prześlij</button>
+            <br>
+        </div>
+    </form>
+</body>
+
+</html>

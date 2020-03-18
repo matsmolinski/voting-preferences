@@ -10,31 +10,32 @@ app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://admin:admin@postg
 db = SQLAlchemy(app)
 
 
-class User(db.Model):
+class Survey(db.Model):
     id = db.Column(db.Integer, primary_key=True)
-    username = db.Column(db.String(80), unique=True, nullable=False)
-    email = db.Column(db.String(120), unique=True, nullable=False)
+    party = db.Column(db.String(10), unique=False, nullable=False)
+    eyes = db.Column(db.String(20), unique=False, nullable=False)
 
     def __repr__(self):
-        return '<User %r>' % self.username
+        return '<Party ' + self.party + ' eyes ' + self.email + '>'
 
-    def __init__(self, username, email, id=None):
+    def __init__(self, party, eyes, id=None):
         self.id = id
-        self.username = username
-        self.email = email
+        self.party = party
+        self.eyes = eyes
 
     def get_all(self):
         data = {
             "id": self.id,
-            "username": self.username,
-            "email": self.email
+            "party": self.party,
+            "eyes": self.eyes
         }
         return data
+
 
 db.create_all()
 
 try:
-    user = User(username="admin", email="a@dmi.n")
+    user = Survey(party="pis", eyes="blue")
     db.session.add(user)
     db.session.commit()
 except IntegrityError:
@@ -42,11 +43,26 @@ except IntegrityError:
 
 
 @app.route('/', methods=['GET'])
-def app_default():
-    user_db = User.query.filter_by(user=user).first()
-    print(user_db, flush=True)
-    return render_template("loginForm.html")
+def get_survey():
+    return render_template("survey.html")
 
+
+@app.route('/', methods=['POST'])
+def upload_survey():
+    party = request.form['party']
+    eyes = request.form['eyes']
+    survey = Survey(party=party, eyes=eyes)
+    db.session.add(survey)
+    db.session.commit()
+    return redirect(url_for('get_thanks'))
+
+@app.route('/thanks', methods=['GET'])
+def get_thanks():
+    return render_template("thanks.html")
+
+@app.errorhandler(404)
+def page_not_found(e):
+    return render_template('404.html'), 404
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)
