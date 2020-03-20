@@ -1,4 +1,4 @@
-from flask import Flask, Blueprint, request, Response, render_template, url_for, redirect
+from flask import Flask, Blueprint, request, Response, render_template, url_for, redirect, make_response
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
 import requests
@@ -44,25 +44,41 @@ except IntegrityError:
 
 @app.route('/', methods=['GET'])
 def get_survey():
-    return render_template("survey.html")
+    lock = request.cookies.get('lock')
+    if lock == '1':
+        return redirect(url_for('get_thanks'))
+    else:
+        return render_template("survey.html")
 
 
 @app.route('/', methods=['POST'])
 def upload_survey():
+    lock = request.cookies.get('lock')
+    if lock == '1':
+        return redirect(url_for('get_thanks'))
+    correct = True
     party = request.form['party']
     eyes = request.form['eyes']
-    survey = Survey(party=party, eyes=eyes)
-    db.session.add(survey)
-    db.session.commit()
-    return redirect(url_for('get_thanks'))
+    if correct:
+        survey = Survey(party=party, eyes=eyes)
+        db.session.add(survey)
+        db.session.commit()
+        resp = make_response(redirect(url_for('get_thanks')))
+        resp.set_cookie('lock', '1')
+        return resp  # redirect(url_for('get_thanks'))
+    else:
+        return render_template("survey.html")
+
 
 @app.route('/thanks', methods=['GET'])
 def get_thanks():
     return render_template("thanks.html")
 
+
 @app.errorhandler(404)
 def page_not_found(e):
     return render_template('404.html'), 404
+
 
 if __name__ == "__main__":
     app.run(host='0.0.0.0', port=80)

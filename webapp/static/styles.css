@@ -1,6 +1,6 @@
 body {
     font-family: Arial, Helvetica, sans-serif;
-    background-color: powderblue;
+    background-color: teal;
 }
 
 header {
@@ -20,7 +20,6 @@ input[type=text], input[type=password], input[type=email] {
     display: inline-block;
     border: none;
     background: #f1f1f1;
-    alignment: center;
 }
 
 input[type=text]:focus, input[type=password]:focus {
@@ -32,11 +31,11 @@ input[type=text]:focus, input[type=password]:focus {
     padding: 16px;
     background-color: white;
     text-align: center;
+    width: 80%;
+    margin: 0 auto;
 }
 
 .normalbutton {
-    background-color: #4CAF50;
-    color: white;
     padding: 16px 20px;
     margin: 8px 0;
     border: none;
@@ -45,35 +44,4 @@ input[type=text]:focus, input[type=password]:focus {
     opacity: 0.9;
     font-size: larger;
 }
-
-
-.linkbutton {
-    background: none!important;
-    border: none;
-    padding: 0!important;
-    /*optional*/
-    font-family: arial, sans-serif;
-    /*input has OS specific font-family*/
-    color: #069;
-    text-decoration: underline;
-    cursor: pointer;
-}
-
-.error {
-    width  : 60%;
-    padding: 0;
-
-    font-size: 80%;
-    color: red;
-    /*background-color: #900;*/
-    border-radius: 0 0 5px 5px;
-
-    -moz-box-sizing: border-box;
-    box-sizing: border-box;
-}
-
-.error.active {
-    padding: 0.3em;
-}
-
 
