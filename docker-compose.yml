@@ -2,7 +2,7 @@ version: "2"
 services:
   webapp:
     depends_on:
-      - postgres
+      - "postgres"
     container_name: voting_webapp
     restart: always
     build:
