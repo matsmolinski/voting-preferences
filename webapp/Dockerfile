@@ -10,15 +10,8 @@ WORKDIR /webapp
 # Install requirements.txt
 RUN pip3 install --no-cache-dir -r requirements.txt
 
-# NGINX setup
-COPY ./webapp/nginx.sh /webapp/nginx.sh
-RUN chmod +x /webapp/nginx.sh
-
-ENV PYTHONPATH=/webapp
-
-ENTRYPOINT ["/webapp/nginx.sh"]
+ENTRYPOINT ["python"]
 
 # Start Server
-CMD ["/start.sh"]
+CMD ["main.py"]
 
-EXPOSE 80 443

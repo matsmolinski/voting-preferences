@@ -2,3 +2,4 @@ flask
 requests
 flask-SQLAlchemy
 psycopg2
+flask-heroku

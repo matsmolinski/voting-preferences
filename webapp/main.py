@@ -1,13 +1,18 @@
 from flask import Flask, Blueprint, request, Response, render_template, url_for, redirect, make_response
 from flask_sqlalchemy import SQLAlchemy
 from sqlalchemy.exc import IntegrityError
+from flask_heroku import Heroku
 import requests
 import json
+import os
 
 
 app = Flask(__name__)
-app.config['SQLALCHEMY_DATABASE_URI'] = 'postgresql+psycopg2://admin:admin@postgres:5432/default_db'
+app.config['SQLALCHEMY_TRACK_MODIFICATIONS'] = False
+heroku = Heroku(app)
 db = SQLAlchemy(app)
+
+port = int(os.environ.get("PORT", 5000))
 
 
 class Survey(db.Model):
@@ -119,4 +124,4 @@ def page_not_found(e):
 
 
 if __name__ == "__main__":
-    app.run(host='0.0.0.0', port=80)
+    app.run(host='0.0.0.0', port=port)
